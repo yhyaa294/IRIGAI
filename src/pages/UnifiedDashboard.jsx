@@ -1,322 +1,264 @@
+import React from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-    PieChart, Pie, Cell
-} from 'recharts';
-import {
-    CloudSun, Droplets, Leaf, Activity, AlertTriangle,
-    Users, Map, Sparkles, Globe, TrendingUp, DollarSign
+    Droplets, CloudRain, Sun, Calendar, Activity, Sprout, Timer, Wind,
+    TrendingUp, Award, Zap, ChevronRight, AlertCircle, Bot,
+    Satellite, Thermometer, Waves, Globe, BookOpen
 } from 'lucide-react';
+import {
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+} from 'recharts';
+import { useNavigate } from 'react-router-dom';
 
-const MOISTURE_DATA = [
-    { day: 'Mon', sat: 30, ai: 45 },
-    { day: 'Tue', sat: 45, ai: 50 },
-    { day: 'Wed', sat: 55, ai: 58 },
-    { day: 'Thu', sat: 40, ai: 52 },
-    { day: 'Fri', sat: 65, ai: 68 },
-    { day: 'Sat', sat: 58, ai: 62 },
-    { day: 'Sun', sat: 72, ai: 70 },
-];
-
-const WATER_DATA = [
-    { name: 'Used', value: 6500 },
-    { name: 'Remaining', value: 3500 },
-];
-
-const COLORS = ['#86A789', '#E2E8F0']; // Sage Green, Light Gray
-
-const TASKS = [
-    { id: 1, sector: 'Sektor B', task: 'Irigasi dibutuhkan dalam 4 jam.', urgency: 'High', time: '10:00 AM' },
-    { id: 2, sector: 'Sektor A', task: 'Deteksi awal hama teridentifikasi. Cek segera.', urgency: 'Critical', time: '09:30 AM' },
-    { id: 3, sector: 'Sektor C', task: 'Pemupukan NPK disarankan besok pagi.', urgency: 'Medium', time: 'Yesterday' },
+// ════ MOCK DATA: MY WATER USAGE vs STANDARD ════
+const WATER_USAGE_DATA = [
+    { day: 'Mon', myUsage: 12, standard: 18 },
+    { day: 'Tue', myUsage: 14, standard: 20 },
+    { day: 'Wed', myUsage: 10, standard: 18 },
+    { day: 'Thu', myUsage: 15, standard: 22 }, // Peak
+    { day: 'Fri', myUsage: 13, standard: 19 },
+    { day: 'Sat', myUsage: 11, standard: 17 },
+    { day: 'Sun', myUsage: 12, standard: 18 },
 ];
 
 export default function UnifiedDashboard() {
+    const navigate = useNavigate();
+
     return (
-        <div className="pb-10 max-w-7xl mx-auto px-4 md:px-8 bg-[#FDFBF7] min-h-screen">
+        <div className="min-h-screen bg-[#FDFBF7] font-sans text-slate-900 pb-24">
 
-            {/* Header: Greeting & Weather */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 pt-4">
+            {/* ════ HEADER ════ */}
+            <header className="flex justify-between items-center mb-8 pt-4">
                 <div>
-                    <h1 className="text-2xl md:text-3xl font-extrabold text-[#1A1A1A] mb-1 font-heading">
-                        Pinios Basin Intelligence
+                    <h1 className="text-2xl md:text-3xl font-heading font-extrabold text-[#1A1A1A]">
+                        Hello, Yannis! 👋
                     </h1>
-                    <p className="text-slate-500 text-sm flex items-center gap-2">
-                        <Map size={16} /> Thessaly, Greece • <span className="text-[#86A789] font-semibold">Demand-Based Precision Irrigation</span>
+                    <p className="text-slate-500 text-sm">
+                        Larissa, Thessaly • <span className="text-[#86A789] font-bold">Cotton Field (Block A)</span>
                     </p>
                 </div>
-                <div className="flex flex-col md:flex-row gap-4">
-                    <div className="bg-white p-3 px-5 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-2">
-                        <Users size={20} className="text-blue-500" />
-                        <div>
-                            <div className="font-extrabold text-sm text-[#1A1A1A]">1,505</div>
-                            <div className="text-[10px] text-slate-500 uppercase tracking-wide">Active Farmers</div>
-                        </div>
-                    </div>
-                    <div className="bg-white p-3 px-5 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-2">
-                        <Activity size={20} className="text-amber-500" />
-                        <div>
-                            <div className="font-extrabold text-sm text-[#1A1A1A]">Moderate</div>
-                            <div className="text-[10px] text-slate-500 uppercase tracking-wide">Drought Risk</div>
-                        </div>
-                    </div>
-                    <div className="bg-white p-3 px-5 rounded-3xl shadow-sm border border-slate-100 flex items-center gap-4 w-full md:w-auto">
-                        <CloudSun size={32} color="#F59E0B" />
-                        <div>
-                            <div className="font-extrabold text-xl text-[#1A1A1A]">28°C</div>
-                            <div className="text-xs text-slate-500 flex items-center gap-1">
-                                <Leaf size={12} /> Larissa, Thessaly
-                            </div>
-                        </div>
-                    </div>
+                <div className="w-10 h-10 rounded-full bg-[#86A789] overflow-hidden border border-slate-200 shadow-sm">
+                    <img src="https://ui-avatars.com/api/?name=Yannis+P&background=86A789&color=fff" alt="Profile" />
                 </div>
-            </div>
+            </header>
 
-            {/* ════ HERO GRID (Desktop: 12 Cols / Mobile: Stack) ════ */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+            {/* ════ 1. HERO: THE DECISION CARD (Refined) ════ */}
+            <div className="bg-white rounded-[2.5rem] p-6 md:p-8 shadow-xl shadow-green-900/5 border border-slate-100 relative overflow-hidden mb-6">
+                {/* Background Decor */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-green-50 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
 
-                {/* 1. Moisture Trend Chart (8 Cols) */}
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 col-span-1 lg:col-span-8 flex flex-col justify-between">
-                    <div className="flex flex-col sm:flex-row justify-between mb-6 gap-2">
-                        <div>
-                            <h3 className="text-lg font-bold text-[#1A1A1A] font-heading">Soil Moisture Analysis</h3>
-                            <div className="text-xs text-slate-500">Last 7 Days • <span className="text-blue-500 font-semibold">Sentinel-2 Data</span> vs AI Prediction</div>
-                        </div>
-                        <div className="flex gap-3">
-                            <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                                <div className="w-2 h-2 rounded-full bg-[#86A789]" /> AI Predicted
-                            </div>
-                            <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                                <div className="w-2 h-2 rounded-full bg-slate-300" /> Historical
-                            </div>
-                        </div>
-                    </div>
-                    <div style={{ height: '300px', width: '100%' }}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={MOISTURE_DATA}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
-                                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94A3B8' }} dy={10} />
-                                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#94A3B8' }} />
-                                <Tooltip
-                                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-                                    cursor={{ stroke: '#E2E8F0' }}
-                                />
-                                <Line type="monotone" dataKey="sat" name="Historical" stroke="#CBD5E1" strokeWidth={3} dot={false} strokeDasharray="5 5" />
-                                <Line type="monotone" dataKey="ai" name="AI Predicted" stroke="#86A789" strokeWidth={4} activeDot={{ r: 6 }} />
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
+                <div className="relative z-10">
+                    <div className="flex flex-col md:flex-row gap-8 items-center">
 
-                {/* 2. Water Allocation Gauge (4 Cols) */}
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 col-span-1 lg:col-span-4 flex flex-col items-center justify-center relative">
-                    <div className="absolute top-4 right-4 bg-blue-50 text-blue-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider border border-blue-100">
-                        Powered by Sentinel-2
-                    </div>
-                    <h3 className="w-full text-lg font-bold text-[#1A1A1A] mb-2 text-left font-heading">Water Saved</h3>
-                    <div className="w-full h-[220px] relative flex justify-center items-center">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie
-                                    data={WATER_DATA}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={70}
-                                    outerRadius={90}
-                                    fill="#8884d8"
-                                    paddingAngle={5}
-                                    dataKey="value"
-                                    startAngle={90}
-                                    endAngle={-270}
-                                    cornerRadius={10}
-                                >
-                                    {WATER_DATA.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
-                                    ))}
-                                </Pie>
-                            </PieChart>
-                        </ResponsiveContainer>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <div className="text-3xl font-extrabold text-[#1A1A1A]">1.2M</div>
-                            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">LITERS SAVED</div>
-                        </div>
-                    </div>
-                    <div className="w-full flex justify-between pt-4 border-t border-slate-50 mt-2">
-                        <div>
-                            <div className="text-xs text-slate-500">Target</div>
-                            <div className="font-bold text-sm text-[#86A789]">1.5M Liters</div>
-                        </div>
-                        <div className="text-right">
-                            <div className="text-xs text-slate-500">Monitored Area</div>
-                            <div className="font-bold text-sm text-slate-700">5,620 ha</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* ════ DATA WIDGETS (Grid 12) ════ */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
-
-                {/* 3. SDG Impact Tracker (4 Cols) */}
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 col-span-1 lg:col-span-4 flex flex-col">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-lg font-bold text-[#1A1A1A] font-heading">SDG Impact</h3>
-                        <Globe size={20} className="text-blue-500" />
-                    </div>
-                    <div className="space-y-6 flex-1 flex flex-col justify-center">
-                        <div>
-                            <div className="flex justify-between text-sm mb-2">
-                                <span className="font-bold text-slate-700">SDG 6.4.2</span>
-                                <span className="text-blue-600 font-bold">Level 1 Stress ↓</span>
-                            </div>
-                            <div className="w-full bg-blue-50 rounded-full h-3 overflow-hidden">
-                                <div className="bg-blue-500 h-full rounded-full w-[75%] transition-all duration-1000"></div>
-                            </div>
-                            <p className="text-[10px] text-slate-400 mt-1">Reduction in Water Stress (Thessaly Basin)</p>
-                        </div>
-                        <div>
-                            <div className="flex justify-between text-sm mb-2">
-                                <span className="font-bold text-slate-700">SDG 2.4.1</span>
-                                <span className="text-green-600 font-bold">Sustainable Ag ↑</span>
-                            </div>
-                            <div className="w-full bg-green-50 rounded-full h-3 overflow-hidden">
-                                <div className="bg-green-500 h-full rounded-full w-[60%] transition-all duration-1000"></div>
-                            </div>
-                            <p className="text-[10px] text-slate-400 mt-1">Area under Productive & Sustainable Ag</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 4. ROI Comparison (4 Cols) */}
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 col-span-1 lg:col-span-4">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-lg font-bold text-[#1A1A1A] font-heading">CAPEX Efficiency</h3>
-                        <DollarSign size={20} className="text-green-600" />
-                    </div>
-
-                    <div className="flex items-end gap-4 h-[180px] mb-4">
-                        {/* Bar 1: Legacy */}
-                        <div className="w-1/2 flex flex-col justify-end h-full gap-2 group">
-                            <div className="flex justify-center"><span className="text-xs font-bold text-slate-400">€200</span></div>
-                            <div className="bg-slate-200 rounded-t-xl w-full h-[80%] flex items-end justify-center pb-2 text-[10px] text-slate-500 font-bold group-hover:bg-slate-300 transition-colors">
-                                Legacy IoT
-                            </div>
-                        </div>
-                        {/* Bar 2: IRIGAI */}
-                        <div className="w-1/2 flex flex-col justify-end h-full gap-2 group">
-                            <div className="flex justify-center"><span className="text-xs font-bold text-green-600">€0</span></div>
-                            <div className="bg-[#86A789] rounded-t-xl w-full h-[5%] flex items-end justify-center pb-2 text-[10px] text-white font-bold relative group-hover:bg-[#759678] transition-colors">
-                                <span className="absolute -top-6 text-green-700 font-extrabold text-sm">~99%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p className="text-center text-xs text-slate-500">
-                        Zero Hardware Installation Cost vs Traditional Sensors.
-                    </p>
-                </div>
-
-                {/* 5. Health Heatmap (4 Cols) */}
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 col-span-1 lg:col-span-4">
-                    <div className="flex justify-between mb-4">
-                        <h3 className="text-lg font-bold text-[#1A1A1A] font-heading">Field Health</h3>
-                        <Activity size={20} className="text-slate-500" />
-                    </div>
-                    {/* Visual Mock of Mini Map */}
-                    <div className="rounded-2xl overflow-hidden h-[160px] grid grid-cols-3 gap-1 bg-slate-50 border-4 border-slate-50">
-                        {/* Zones */}
-                        <div className="bg-[#86A789] opacity-90 rounded-md hover:opacity-100 transition-opacity"></div>
-                        <div className="bg-[#86A789] opacity-80 rounded-md hover:opacity-100 transition-opacity"></div>
-                        <div className="bg-amber-400 opacity-90 rounded-md hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <AlertTriangle size={16} className="text-white drop-shadow-sm" />
-                        </div>
-                        <div className="bg-[#86A789] rounded-md hover:opacity-100 transition-opacity"></div>
-                        <div className="bg-red-400 opacity-90 rounded-md hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <AlertTriangle size={16} className="text-white drop-shadow-sm" />
-                        </div>
-                        <div className="bg-[#86A789] opacity-70 rounded-md hover:opacity-100 transition-opacity"></div>
-                        <div className="bg-[#86A789] opacity-90 rounded-md hover:opacity-100 transition-opacity"></div>
-                        <div className="bg-amber-400 opacity-80 rounded-md hover:opacity-100 transition-opacity"></div>
-                        <div className="bg-[#86A789] rounded-md hover:opacity-100 transition-opacity"></div>
-                    </div>
-                    <div className="flex justify-between mt-3 text-xs text-slate-500">
-                        <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm bg-[#86A789]" /> Healthy</span>
-                        <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm bg-amber-400" /> Warning</span>
-                        <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm bg-red-400" /> Critical</span>
-                    </div>
-                </div>
-
-            </div>
-
-            {/* ════ AI TASKS & ROADMAP (Grid 12) ════ */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-20">
-
-                {/* 6. AI Tasks (7 Cols) */}
-                <div className="bg-white rounded-3xl p-6 shadow-sm border border-orange-100 col-span-1 lg:col-span-7 flex flex-col">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-bold text-[#1A1A1A] flex items-center gap-2 font-heading">
-                            <Sparkles size={20} className="text-amber-500" /> Rekomendasi Aura AI
-                        </h3>
-                        <button className="text-xs text-amber-600 font-semibold hover:underline">See All</button>
-                    </div>
-                    <div className="grid grid-cols-1 gap-3">
-                        {TASKS.map((task) => (
-                            <div key={task.id} className="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 flex gap-3 items-start hover:bg-orange-50 transition-colors cursor-pointer">
-                                <AlertTriangle size={20} color={task.urgency === 'Critical' ? '#EF4444' : '#F59E0B'} className="mt-0.5" />
-                                <div className="flex-1">
-                                    <div className="text-[10px] text-orange-800 font-bold mb-1 uppercase tracking-wider">
-                                        {task.sector} • {task.urgency}
-                                    </div>
-                                    <div className="text-sm text-[#1A1A1A] font-semibold leading-relaxed">
-                                        {task.task}
-                                    </div>
+                        {/* Status & Recommendation */}
+                        <div className="flex-1 space-y-4">
+                            <div className="flex items-center gap-3">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-600 rounded-full text-xs font-bold uppercase tracking-wider border border-amber-100">
+                                    <AlertCircle size={14} /> Attention
                                 </div>
-                                <div className="text-[10px] text-slate-400 whitespace-nowrap">{task.time}</div>
+                                <div className="text-[10px] text-slate-400 font-bold flex items-center gap-1 bg-slate-50 px-2 py-1 rounded-full border border-slate-100">
+                                    <Satellite size={12} className="text-blue-500" /> Source: Copernicus Sentinel-2 & Sensors
+                                </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
 
-                {/* 7. Implementation Roadmap (5 Cols) */}
-                <div className="bg-slate-900 rounded-3xl p-6 shadow-lg border border-slate-800 col-span-1 lg:col-span-5 text-white flex flex-col relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-4 opacity-10">
-                        <TrendingUp size={100} className="text-white" />
-                    </div>
-                    <h3 className="text-lg font-bold text-white mb-6 font-heading relative z-10">Implementation Plan</h3>
-                    <div className="space-y-6 relative z-10">
-                        <div className="flex gap-4">
-                            <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
-                                <div className="w-0.5 h-full bg-slate-700 my-1"></div>
-                            </div>
-                            <div className="pb-4">
-                                <div className="text-xs font-bold text-green-400 uppercase tracking-wider mb-1">0-6 Months</div>
-                                <h4 className="font-bold text-sm">Preparation Phase</h4>
-                                <p className="text-xs text-slate-400 mt-1">Stakeholder engagement, baseline data collection.</p>
-                            </div>
-                        </div>
-                        <div className="flex gap-4">
-                            <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
-                                <div className="w-0.5 h-full bg-slate-700 my-1"></div>
-                            </div>
-                            <div className="pb-4">
-                                <div className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-1">6-18 Months (Current)</div>
-                                <h4 className="font-bold text-sm">Pilot Execution</h4>
-                                <p className="text-xs text-slate-400 mt-1">1,200+ Farmers onboarding, AI Model validation.</p>
-                            </div>
-                        </div>
-                        <div className="flex gap-4">
-                            <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-slate-600 border border-slate-500"></div>
-                            </div>
                             <div>
-                                <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">18-36 Months</div>
-                                <h4 className="font-bold text-sm text-slate-300">Basin-Wide Expansion</h4>
-                                <p className="text-xs text-slate-500 mt-1">Full policy integration & scale-up.</p>
+                                <h2 className="text-4xl md:text-5xl font-heading font-extrabold text-slate-900 leading-tight mb-2">
+                                    Irrigation <br /><span className="text-amber-500">Needed</span> Today
+                                </h2>
+                                <p className="text-slate-500 text-lg leading-relaxed">
+                                    Soil moisture dropped to <span className="font-bold text-slate-900">38%</span>. Crop in <span className="font-bold text-[#86A789]">Flowering Phase (Day 45)</span> requires stable water levels.
+                                </p>
                             </div>
+
+                            <div className="flex items-center gap-4 pt-2">
+                                <div className="px-4 py-2 bg-slate-50 rounded-xl border border-slate-100">
+                                    <div className="text-xs text-slate-400 font-bold uppercase">Recommendation</div>
+                                    <div className="text-xl font-bold text-slate-900">15mm</div>
+                                </div>
+                                <div className="px-4 py-2 bg-slate-50 rounded-xl border border-slate-100">
+                                    <div className="text-xs text-slate-400 font-bold uppercase">Pump Duration</div>
+                                    <div className="text-xl font-bold text-slate-900">~2 Hours</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Action Button */}
+                        <div className="w-full md:w-auto flex flex-col gap-3">
+                            <button
+                                onClick={() => navigate('/app/schedule')}
+                                className="w-full md:w-64 bg-[#86A789] hover:bg-[#759678] text-white py-5 rounded-2xl font-bold text-lg shadow-lg shadow-[#86A789]/30 flex items-center justify-center gap-3 transition-transform active:scale-95 group"
+                            >
+                                <Droplets size={24} className="group-hover:animate-bounce" /> Start Irrigation Now
+                            </button>
+                            <div className="text-center text-xs text-slate-400 font-medium">
+                                Automatically scheduled by RIGA AI
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            {/* ════ 2. LIVE TELEMETRY GRID (New System) ════ */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+
+                {/* 2.1 Satellite Data */}
+                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group hover:border-indigo-100 transition-colors">
+                    <div className="absolute top-2 right-2 text-[10px] bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded font-bold">10m ago</div>
+                    <div className="flex items-center gap-2 mb-3">
+                        <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600">
+                            <Satellite size={18} />
+                        </div>
+                        <span className="text-xs font-bold text-slate-500 uppercase">NDVI Health</span>
+                    </div>
+                    <div>
+                        <div className="text-2xl font-extrabold text-slate-900">0.78</div>
+                        <div className="text-xs text-indigo-600 font-bold">Excellent Condition</div>
+                    </div>
+                </div>
+
+                {/* 2.2 Soil Physics */}
+                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group hover:border-orange-100 transition-colors">
+                    <div className="absolute top-2 right-2 text-[10px] bg-slate-50 text-slate-400 px-1.5 py-0.5 rounded font-bold">Real-time</div>
+                    <div className="flex items-center gap-2 mb-3">
+                        <div className="p-2 bg-orange-50 rounded-lg text-orange-500">
+                            <Thermometer size={18} />
+                        </div>
+                        <span className="text-xs font-bold text-slate-500 uppercase">Soil Temp & pH</span>
+                    </div>
+                    <div>
+                        <div className="text-2xl font-extrabold text-slate-900">24°C</div>
+                        <div className="text-xs text-slate-500 font-bold">pH 6.5 (Optimal)</div>
+                    </div>
+                </div>
+
+                {/* 2.3 Water Loss Rate */}
+                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group hover:border-blue-100 transition-colors">
+                    <div className="absolute top-2 right-2 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded font-bold">High</div>
+                    <div className="flex items-center gap-2 mb-3">
+                        <div className="p-2 bg-blue-50 rounded-lg text-blue-500">
+                            <Waves size={18} />
+                        </div>
+                        <span className="text-xs font-bold text-slate-500 uppercase">Evapotranspiration</span>
+                    </div>
+                    <div>
+                        <div className="text-2xl font-extrabold text-slate-900">4.2 <span className="text-sm text-slate-400">mm/d</span></div>
+                        <div className="text-xs text-blue-500 font-bold">Water Loss Rate</div>
+                    </div>
+                </div>
+
+                {/* 2.4 Wind Speed */}
+                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group hover:border-slate-300 transition-colors">
+                    <div className="absolute top-2 right-2 text-[10px] bg-slate-50 text-slate-400 px-1.5 py-0.5 rounded font-bold">Live</div>
+                    <div className="flex items-center gap-2 mb-3">
+                        <div className="p-2 bg-slate-100 rounded-lg text-slate-600">
+                            <Wind size={18} />
+                        </div>
+                        <span className="text-xs font-bold text-slate-500 uppercase">Wind Speed</span>
+                    </div>
+                    <div>
+                        <div className="text-2xl font-extrabold text-slate-900">12 <span className="text-sm text-slate-400">km/h</span></div>
+                        <div className="text-xs text-slate-500 font-bold">Direction: NE ↗</div>
+                    </div>
+                </div>
+            </div>
+
+            {/* ════ 3. KEY METRICS: MY FARM STATS (Condensed) ════ */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                {/* Card 1: Water Saved */}
+                <div className="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100 shadow-sm flex flex-col justify-between">
+                    <div className="text-xs font-bold text-emerald-600 uppercase mb-1">Water Saved</div>
+                    <div className="text-xl font-extrabold text-slate-900">45k L</div>
+                    <div className="text-[10px] text-emerald-600/70 font-bold">This Season</div>
+                </div>
+                {/* Card 2: Next Rain */}
+                <div className="bg-blue-50/50 p-4 rounded-2xl border border-blue-100 shadow-sm flex flex-col justify-between">
+                    <div className="text-xs font-bold text-blue-600 uppercase mb-1">Next Rain</div>
+                    <div className="text-xl font-extrabold text-slate-900">2 Days</div>
+                    <div className="text-[10px] text-blue-600/70 font-bold">Prepare Trenches</div>
+                </div>
+                {/* Card 3: Land Health */}
+                <div className="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 shadow-sm flex flex-col justify-between">
+                    <div className="text-xs font-bold text-amber-600 uppercase mb-1">Moisture</div>
+                    <div className="text-xl font-extrabold text-slate-900">Low</div>
+                    <div className="text-[10px] text-amber-600/70 font-bold">Needs Attention</div>
+                </div>
+                {/* Card 4: Rewards */}
+                <div onClick={() => navigate('/app/rewards')} className="bg-purple-50/50 p-4 rounded-2xl border border-purple-100 shadow-sm flex flex-col justify-between cursor-pointer hover:bg-purple-100 transition-colors">
+                    <div className="text-xs font-bold text-purple-600 uppercase mb-1">Points</div>
+                    <div className="text-xl font-extrabold text-slate-900">1,250</div>
+                    <div className="text-[10px] text-purple-600/70 font-bold flex items-center gap-1">Redeem <ChevronRight size={10} /></div>
+                </div>
+            </div>
+
+            {/* ════ 4. EFFICIENCY CHART ════ */}
+            <div className="bg-white rounded-[2.5rem] p-6 md:p-8 shadow-sm border border-slate-100 mb-20">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
+                    <div>
+                        <h3 className="font-heading font-bold text-xl text-slate-900 mb-1">Water Usage Efficiency</h3>
+                        <p className="text-slate-500 text-sm">
+                            You used <span className="text-green-600 font-bold">30% less water</span> compared to regional standard.
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs font-bold">
+                        <div className="flex items-center gap-1.5 text-slate-400">
+                            <span className="w-3 h-3 rounded-full bg-slate-300"></span> Standard
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[#86A789]">
+                            <span className="w-3 h-3 rounded-full bg-[#86A789]"></span> My Usage
                         </div>
                     </div>
                 </div>
 
+                <div className="h-[250px] w-full min-w-0">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={WATER_USAGE_DATA} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
+                            <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fill: '#94A3B8', fontSize: 12 }} dy={10} />
+                            <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94A3B8', fontSize: 12 }} />
+                            <Tooltip
+                                contentStyle={{ backgroundColor: '#FFF', borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                labelStyle={{ color: '#64748B', marginBottom: '0.5rem' }}
+                            />
+                            <Line
+                                type="monotone"
+                                dataKey="standard"
+                                name="Standard"
+                                stroke="#CBD5E1"
+                                strokeWidth={3}
+                                strokeDasharray="5 5"
+                                dot={false}
+                            />
+                            <Line
+                                type="monotone"
+                                dataKey="myUsage"
+                                name="My Usage"
+                                stroke="#86A789"
+                                strokeWidth={4}
+                                dot={{ r: 4, fill: '#86A789', strokeWidth: 0 }}
+                                activeDot={{ r: 6, strokeWidth: 0 }}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* ════ 5. RIGA AI WIDGET (Fixed Bottom) ════ */}
+            <div className="fixed bottom-4 left-4 right-4 md:left-[280px] md:right-8 z-30">
+                <div
+                    onClick={() => navigate('/app/riga')}
+                    className="bg-slate-900/90 backdrop-blur-md text-white p-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/10 cursor-pointer hover:bg-slate-800 transition-colors"
+                >
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#86A789] to-emerald-400 flex items-center justify-center shrink-0 animate-pulse">
+                        <Bot size={20} className="text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        <div className="text-xs font-bold text-[#86A789] uppercase tracking-wider mb-0.5">RIGA Intelligence</div>
+                        <p className="text-sm font-medium truncate">
+                            "Please take a photo of your field conditions now."
+                        </p>
+                    </div>
+                    <ChevronRight size={20} className="text-slate-400" />
+                </div>
             </div>
 
         </div>

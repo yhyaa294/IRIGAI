@@ -77,9 +77,9 @@ export default function Onboarding() {
 
     const handleFinish = () => {
         // Complete Registration -> Log them in as farmer
-        localStorage.setItem('token', 'mock_token_' + Date.now());
-        localStorage.setItem('role', 'farmer');
-        navigate('/app');
+        // localStorage.setItem('token', 'mock_token_' + Date.now()); // REMOVED: User must login first
+        // localStorage.setItem('role', 'farmer');
+        navigate('/login'); // Redirect to Login as requested
     };
 
     return (
@@ -372,13 +372,13 @@ export default function Onboarding() {
                     <p style={{
                         fontSize: '0.9rem', color: '#94A3B8', marginBottom: '12px'
                     }}>
-                        Sudah punya akun?{' '}
+                        Already have an account?{' '}
                         <Link to="/login" style={{
                             color: '#86A789', fontWeight: 700, textDecoration: 'none'
                         }}
                             onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
                             onMouseOut={(e) => e.target.style.textDecoration = 'none'}>
-                            Masuk di sini
+                            Login here
                         </Link>
                     </p>
                     <p style={{

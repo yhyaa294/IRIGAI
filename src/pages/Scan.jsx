@@ -10,36 +10,36 @@ import {
 const PHOTO_STEPS = [
     {
         id: 'leaf',
-        label: 'Foto Daun',
+        label: 'Leaf Photo',
         icon: <Leaf size={24} />,
         emoji: '🍃',
-        title: 'Ambil Foto Daun',
-        desc: 'Foto close-up daun untuk deteksi hama & penyakit.',
-        tip: 'Fokus pada daun dengan gejala penyakit paling jelas.',
-        aiLabel: 'Hama, Penyakit, & Defisiensi Hara',
-        mockImg: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=240&fit=crop',
+        title: 'Take Leaf Photo',
+        desc: 'Close-up photo of a leaf to detect pests & diseases.',
+        tip: 'Focus on leaves with clear symptoms.',
+        aiLabel: 'Pests, Diseases, & Nutrient Deficiency',
+        mockImg: '/icon_1.jpeg',
     },
     {
         id: 'soil',
-        label: 'Foto Tanah',
+        label: 'Soil Photo',
         icon: <Eye size={24} />,
         emoji: '🟫',
-        title: 'Ambil Foto Tanah',
-        desc: 'Foto permukaan tanah untuk estimasi kelembapan.',
-        tip: 'Pastikan tekstur tanah terlihat jelas (retak/basah).',
-        aiLabel: 'Analisis Kelembapan Tanah Visual',
-        mockImg: 'https://images.unsplash.com/photo-1586771107445-b3e7d30e1a62?w=400&h=240&fit=crop',
+        title: 'Take Soil Photo',
+        desc: 'Ground surface photo for moisture estimation.',
+        tip: 'Ensure soil texture is clearly visible (cracks/wetness).',
+        aiLabel: 'Visual Soil Moisture Analysis',
+        mockImg: '/gambar_3.jpeg',
     },
     {
         id: 'landscape',
-        label: 'Foto Lanskap',
+        label: 'Landscape Photo',
         icon: <Mountain size={24} />,
         emoji: '🌾',
-        title: 'Ambil Foto Lanskap',
-        desc: 'Foto area luas untuk estimasi biomassa.',
-        tip: 'Ambil dari ketinggian 2 meter mencakup satu baris tanaman.',
-        aiLabel: 'Estimasi Fase Pertumbuhan & Biomassa',
-        mockImg: 'https://images.unsplash.com/photo-1530836176759-855405b22d77?w=400&h=240&fit=crop',
+        title: 'Take Landscape Photo',
+        desc: 'Wide area photo for biomass estimation.',
+        tip: 'Take from 2 meters height covering one crop row.',
+        aiLabel: 'Growth Stage & Biomass Estimation',
+        mockImg: '/halaman_1.jpeg',
     },
 ];
 
@@ -102,7 +102,7 @@ export default function Scan() {
     const [procStep, setProcStep] = useState(0);
 
     // Mock Image Capture
-    const handleCapture = (source) => {
+    const handleCapture = () => {
         // source: 'camera' | 'gallery'
         const newPhotos = [...photos];
         newPhotos[photoStep] = PHOTO_STEPS[photoStep].mockImg;
@@ -153,8 +153,8 @@ export default function Scan() {
         return (
             <div style={{ padding: '40px', textAlign: 'center', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <div className="processing-spinner" style={{ width: '60px', height: '60px', border: '5px solid #E2E8F0', borderTopColor: '#86A789', borderRadius: '50%', animation: 'spin 1s linear infinite', marginBottom: '24px' }}></div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#1E293B', marginBottom: '8px' }}>Analisis AI Berjalan...</h3>
-                <p style={{ color: '#64748B', marginBottom: '32px' }}>Menggabungkan data foto, satelit, dan cuaca.</p>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#1E293B', marginBottom: '8px' }}>AI Analysis Running...</h3>
+                <p style={{ color: '#64748B', marginBottom: '32px' }}>Merging photo, satellite, and weather data.</p>
 
                 <div style={{ textAlign: 'left', background: '#F8FAFC', padding: '20px', borderRadius: '16px', border: '1px solid #E2E8F0', width: '100%', maxWidth: '400px' }}>
                     {PROCESSING_STEPS.map((step, i) => (
@@ -184,7 +184,7 @@ export default function Scan() {
                 {/* Header */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
                     <div>
-                        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1E293B', marginBottom: '4px' }}>Laporan Kesehatan</h1>
+                        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1E293B', marginBottom: '4px' }}>Health Report</h1>
                         <div style={{ fontSize: '0.85rem', color: '#64748B', display: 'flex', alignItems: 'center', gap: '6px' }}>
                             <Calendar size={14} /> {today} • <MapPin size={14} /> Larissa, Thessaly
                         </div>
@@ -200,7 +200,7 @@ export default function Scan() {
                         <HealthGauge score={85} />
                     </div>
                     <div style={{ fontSize: '0.9rem', color: '#64748B' }}>
-                        Kondisi tanaman Anda <strong style={{ color: '#16A34A' }}>Sangat Baik</strong>, namun memerlukan sedikit air tambahan.
+                        Your crop condition is <strong style={{ color: '#16A34A' }}>Excellent</strong>, but requires a little extra water.
                     </div>
 
                     {/* Reward Badge */}
@@ -228,9 +228,9 @@ export default function Scan() {
                         }}>
                             <Droplets size={20} />
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748B', marginBottom: '4px' }}>Kebutuhan Air</div>
+                        <div style={{ fontSize: '0.8rem', color: '#64748B', marginBottom: '4px' }}>Water Requirement</div>
                         <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0284C7' }}>+12.5 L</div>
-                        <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Hari ini</div>
+                        <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Today</div>
                     </div>
 
                     {/* Card B: Pests */}
@@ -241,9 +241,9 @@ export default function Scan() {
                         }}>
                             <Bug size={20} />
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748B', marginBottom: '4px' }}>Hama & Penyakit</div>
-                        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#16A34A' }}>Negatif</div>
-                        <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Tidak terdeteksi</div>
+                        <div style={{ fontSize: '0.8rem', color: '#64748B', marginBottom: '4px' }}>Pests & Diseases</div>
+                        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#16A34A' }}>Negative</div>
+                        <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Not detected</div>
                     </div>
 
                     {/* Card C: Moisture */}
@@ -254,7 +254,7 @@ export default function Scan() {
                         }}>
                             <Wind size={20} />
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748B', marginBottom: '4px' }}>Kelembapan</div>
+                        <div style={{ fontSize: '0.8rem', color: '#64748B', marginBottom: '4px' }}>Moisture</div>
                         <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0891b2' }}>62%</div>
                         <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Optimal</div>
                     </div>
@@ -267,9 +267,9 @@ export default function Scan() {
                         }}>
                             <Leaf size={20} />
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748B', marginBottom: '4px' }}>Status Nutrisi</div>
-                        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ca8a04' }}>Cukup</div>
-                        <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Perlu dipantau</div>
+                        <div style={{ fontSize: '0.8rem', color: '#64748B', marginBottom: '4px' }}>Nutrient Status</div>
+                        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ca8a04' }}>Sufficient</div>
+                        <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Needs monitoring</div>
                     </div>
                 </div>
 
@@ -289,7 +289,7 @@ export default function Scan() {
                         onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
                         onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                     >
-                        Simpan & Terapkan ke Dashboard
+                        Save & Apply to Dashboard
                     </button>
 
                     <button
@@ -304,7 +304,7 @@ export default function Scan() {
                         onMouseOver={(e) => { e.currentTarget.style.background = '#F8FAFC'; e.currentTarget.style.color = '#1E293B'; }}
                         onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#64748B'; }}
                     >
-                        Scan Area Lain
+                        Scan Another Area
                     </button>
                 </div>
 
@@ -325,8 +325,8 @@ export default function Scan() {
 
             {/* Header */}
             <div style={{ marginBottom: '32px' }}>
-                <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1E293B', marginBottom: '4px' }}>Scan Tanaman</h1>
-                <p style={{ color: '#64748B' }}>Ambil 3 foto untuk analisis komprehensif.</p>
+                <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1E293B', marginBottom: '4px' }}>Scan Plant</h1>
+                <p style={{ color: '#64748B' }}>Take 3 photos for comprehensive AI analysis.</p>
             </div>
 
             {/* 1. Enhanced Progress Tracker */}
@@ -374,7 +374,7 @@ export default function Scan() {
                         Retake
                     </button>
                     <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                        <div style={{ color: '#fff', fontWeight: 600 }}><CheckCircle size={16} style={{ display: 'inline', marginRight: 6 }} /> Foto Tersimpan</div>
+                        <div style={{ color: '#fff', fontWeight: 600 }}><CheckCircle size={16} style={{ display: 'inline', marginRight: 6 }} /> Photo Saved</div>
                     </div>
                 </div>
             ) : (
@@ -401,8 +401,8 @@ export default function Scan() {
                         }}>
                             <Camera size={32} color="#86A789" />
                         </div>
-                        <span style={{ fontWeight: 700, color: '#166534' }}>Ambil Foto</span>
-                        <span style={{ fontSize: '0.8rem', color: '#86A789' }}>Gunakan Kamera</span>
+                        <span style={{ fontWeight: 700, color: '#166534' }}>Take Photo</span>
+                        <span style={{ fontSize: '0.8rem', color: '#86A789' }}>Use Camera</span>
                     </div>
 
                     {/* Upload Action */}
@@ -422,7 +422,7 @@ export default function Scan() {
                             <Upload size={32} color="#3B82F6" />
                         </div>
                         <span style={{ fontWeight: 700, color: '#1E40AF' }}>Upload File</span>
-                        <span style={{ fontSize: '0.8rem', color: '#60A5FA' }}>Dari Galeri</span>
+                        <span style={{ fontSize: '0.8rem', color: '#60A5FA' }}>From Gallery</span>
                     </div>
                 </div>
             )}
@@ -477,9 +477,9 @@ export default function Scan() {
                     onMouseOut={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.background = '#86A789'; }}
                 >
                     {photoStep < 2 ? (
-                        <>Lanjut ke Langkah {photoStep + 2} <ArrowRight size={24} /></>
+                        <>Next to Step {photoStep + 2} <ArrowRight size={24} /></>
                     ) : (
-                        <>MULAI ANALISIS AI <Brain size={24} /></>
+                        <>START AI ANALYSIS <Brain size={24} /></>
                     )}
                 </button>
             </div>

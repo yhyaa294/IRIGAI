@@ -1,40 +1,58 @@
-﻿/* Force Rebuild: 2026-02-16 */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+﻿@import "tailwindcss";
 
 @layer base {
   body {
-    @apply bg-[#FDFBF7] text-slate-900;
-    /* Soft Cream Aesthetic */
+    background-color: #FDFBF7;
+    color: #0F172A;
+    /* slate-900 */
   }
 }
 
-/* Animasi sederhana yang aman */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+
+@theme {
+  --color-cream-50: #FFFBF0;
+  --color-sage-DEFAULT: #86A789;
+  --font-sans: Inter, sans-serif;
+  --font-heading: Outfit, sans-serif;
+
+  --animate-fade-in-up: fadeInUp 1s ease-out forwards;
+  --animate-fade-in: fadeIn 0.5s ease-in-out;
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  to {
-    opacity: 1;
-  }
-}
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
 
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-in-out;
+    to {
+      opacity: 1;
+    }
+  }
 }
 
 /* Custom Scrollbar */
-.sidebar-scroll::-webkit-scrollbar {
-  width: 6px;
-}
+@layer utilities {
+  .sidebar-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
 
-.sidebar-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
+  .sidebar-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-.sidebar-scroll::-webkit-scrollbar-thumb {
-  background-color: #CBD5E1;
-  border-radius: 20px;
+  .sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: #CBD5E1;
+    border-radius: 20px;
+  }
 }
